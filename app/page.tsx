@@ -1,3 +1,4 @@
+import FinalSection from "@/components/FinalSection";
 import HeroSection from "@/components/hero";
 import ProcessSection from "@/components/ProcessSection";
 import ServicesGrid from "@/components/ServiceGrid";
@@ -9,6 +10,7 @@ export default function Home() {
       <HeroSection />
       <ServicesGrid />
       <ProcessSection />
+      <FinalSection />
     </div>
   );
 }
