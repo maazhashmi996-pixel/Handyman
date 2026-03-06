@@ -1,7 +1,7 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { MessageSquare, Microscope, Wrench, ArrowRight, LucideIcon } from "lucide-react";
+import { MessageSquare, Microscope, Wrench, ArrowRight } from "lucide-react";
 
 interface Step {
     id: string;
@@ -44,75 +44,52 @@ const steps: Step[] = [
 ];
 
 export default function UltraWorkflow() {
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth < 768);
+        handleResize();
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
     return (
-        <section className="relative py-36 px-6 bg-gradient-to-b from-slate-950 via-slate-900 to-black overflow-hidden">
-            {/* background glow */}
+        <section className="relative py-24 px-6 bg-gradient-to-b from-slate-950 via-slate-900 to-black overflow-hidden">
             <div className="absolute w-[600px] h-[600px] bg-blue-600/20 blur-[150px] rounded-full top-[-200px] left-[-200px]" />
             <div className="absolute w-[600px] h-[600px] bg-purple-600/20 blur-[150px] rounded-full bottom-[-200px] right-[-200px]" />
 
             <div className="max-w-7xl mx-auto relative z-10">
-                {/* HEADER */}
-                <motion.div
-                    initial={{ opacity: 0, y: 60 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8 }}
-                    className="text-center mb-28"
-                >
-                    <span className="text-blue-400 tracking-[0.4em] uppercase text-xs font-bold">
-                        Workflow Protocol
-                    </span>
-                    <h2 className="text-6xl md:text-7xl font-black text-white mt-6">
-                        Intelligent
-                        <span className="bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
-                            {" "}Process
-                        </span>
+                <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} className="text-center mb-20">
+                    <span className="text-blue-400 tracking-[0.4em] uppercase text-xs font-bold">Workflow Protocol</span>
+                    <h2 className="text-5xl md:text-7xl font-black text-white mt-6">
+                        Intelligent <span className="bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">Process</span>
                     </h2>
-                    <p className="text-slate-400 mt-6 max-w-xl mx-auto">
-                        Our systemized workflow ensures precision engineering and seamless project execution.
-                    </p>
                 </motion.div>
 
-                {/* CARDS */}
-                <div className="grid md:grid-cols-3 gap-12 perspective-[2000px]">
-                    {/* CARD 1 */}
-                    <motion.div
-                        initial={{ opacity: 0, x: -600, rotateY: 180, rotateX: 80, scale: 0.6 }}
-                        whileInView={{ opacity: 1, x: 0, rotateY: 0, rotateX: 0, scale: 1 }}
-                        transition={{ duration: 1.1, type: "spring", stiffness: 80 }}
-                        whileHover={{ rotateY: -8, rotateX: 6, scale: 1.05 }}
-                        className="group relative h-[420px] rounded-[30px] backdrop-blur-xl bg-white/5 border border-white/10 shadow-[0_20px_80px_rgba(0,0,0,0.7)] overflow-hidden"
-                    >
-                        <CardContent step={steps[0]} />
-                    </motion.div>
-
-                    {/* CARD 2 */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 400, scale: 0.5 }}
-                        whileInView={{ opacity: 1, y: [400, -40, 10, 0], scale: 1 }}
-                        transition={{ delay: 1.4, duration: 1, ease: "easeOut" }}
-                        whileHover={{ rotateY: -10, rotateX: 8, scale: 1.05 }}
-                        className="group relative h-[420px] rounded-[30px] backdrop-blur-xl bg-white/5 border border-white/10 shadow-[0_20px_80px_rgba(0,0,0,0.7)] overflow-hidden"
-                    >
-                        <CardContent step={steps[1]} />
-                    </motion.div>
-
-                    {/* CARD 3 */}
-                    <motion.div
-                        initial={{ opacity: 0, x: 600, rotateY: -180, rotateX: 80, scale: 0.6 }}
-                        whileInView={{ opacity: 1, x: 0, rotateY: 0, rotateX: 0, scale: 1 }}
-                        transition={{ delay: 0.7, duration: 1.1, type: "spring", stiffness: 90 }}
-                        whileHover={{ rotateY: 8, rotateX: 6, scale: 1.05 }}
-                        className="group relative h-[420px] rounded-[30px] backdrop-blur-xl bg-white/5 border border-white/10 shadow-[0_20px_80px_rgba(0,0,0,0.7)] overflow-hidden"
-                    >
-                        <CardContent step={steps[2]} />
-                    </motion.div>
+                {/* CARDS GRID */}
+                <div className="grid md:grid-cols-3 gap-8">
+                    {steps.map((step, index) => (
+                        <motion.div
+                            key={step.id}
+                            initial={{ opacity: 0, y: 50 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ delay: index * 0.2, duration: 0.6 }}
+                            whileHover={{ y: -10 }}
+                            className="group relative h-[420px] rounded-[30px] backdrop-blur-xl bg-white/5 border border-white/10 shadow-[0_20px_80px_rgba(0,0,0,0.7)] overflow-hidden"
+                        >
+                            <CardContent step={step} />
+                        </motion.div>
+                    ))}
                 </div>
             </div>
+            {/* Visualizing the workflow steps 
+
+[Image of workflow process diagram]
+ */}
         </section>
     );
 }
 
-/* CARD COMPONENT */
 function CardContent({ step }: { step: Step }) {
     return (
         <>
@@ -120,21 +97,16 @@ function CardContent({ step }: { step: Step }) {
             <div className="relative z-10 p-10 flex flex-col justify-between h-full">
                 <div className="flex justify-between items-start">
                     <span className="text-6xl font-black text-white/10">{step.id}</span>
-                    <div className="bg-white/10 text-white px-4 py-1 rounded-full text-xs font-bold">
-                        {step.price}
-                    </div>
+                    <div className="bg-white/10 text-white px-4 py-1 rounded-full text-xs font-bold">{step.price}</div>
                 </div>
-
                 <div className={`w-16 h-16 rounded-2xl flex items-center justify-center bg-gradient-to-br ${step.color} shadow-xl group-hover:scale-110 transition`}>
                     {step.icon}
                 </div>
-
                 <div>
                     <h3 className="text-2xl font-black text-white mb-3">{step.title}</h3>
                     <p className="text-slate-400 text-sm mb-4">{step.desc}</p>
                     <p className="text-slate-500 text-xs leading-relaxed">{step.detail}</p>
                 </div>
-
                 <button className="group flex items-center justify-between bg-white text-black py-3 px-5 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-blue-500 hover:text-white transition">
                     Start Step
                     <ArrowRight size={16} className="group-hover:translate-x-2 transition" />

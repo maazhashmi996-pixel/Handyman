@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { Building2, Droplets, Warehouse, TreePine, ShieldCheck } from "lucide-react";
 
 const services = [
@@ -41,13 +42,13 @@ const services = [
     },
 ];
 
-export default function PremiumServices() {
+export default function ServiceGrid() {
     return (
-        <section className="relative py-36 px-6 bg-gradient-to-b from-slate-950 via-slate-900 to-black overflow-hidden">
+        <section className="relative py-24 md:py-36 px-6 bg-gradient-to-b from-slate-950 via-slate-900 to-black overflow-hidden min-h-screen">
 
-            {/* glow background */}
-            <div className="absolute w-[600px] h-[600px] bg-blue-500/20 blur-[120px] rounded-full top-0 left-0"></div>
-            <div className="absolute w-[600px] h-[600px] bg-purple-500/20 blur-[120px] rounded-full bottom-0 right-0"></div>
+            {/* background glow */}
+            <div className="absolute w-[500px] h-[500px] bg-blue-500/20 blur-[120px] rounded-full top-0 left-0"></div>
+            <div className="absolute w-[500px] h-[500px] bg-purple-500/20 blur-[120px] rounded-full bottom-0 right-0"></div>
 
             <div className="max-w-7xl mx-auto relative z-10">
 
@@ -56,85 +57,74 @@ export default function PremiumServices() {
                     initial={{ opacity: 0, y: 60 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8 }}
-                    className="text-center mb-24"
+                    className="text-center mb-20 md:mb-24"
                 >
                     <span className="text-blue-400 uppercase tracking-[0.4em] text-xs font-bold">
                         Our Expertise
                     </span>
 
-                    <h2 className="text-6xl md:text-7xl font-black text-white mt-6 tracking-tight">
+                    <h2 className="text-4xl sm:text-5xl md:text-7xl font-black text-white mt-6 tracking-tight">
                         Advanced{" "}
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">
                             Engineering
                         </span>
                     </h2>
 
-                    <p className="text-slate-400 mt-6 max-w-xl mx-auto">
+                    <p className="text-slate-400 mt-6 max-w-xl mx-auto text-sm md:text-base">
                         Precision engineered systems combining modern architecture,
                         automation and intelligent infrastructure.
                     </p>
                 </motion.div>
 
-                {/* grid */}
-                <div className="grid md:grid-cols-3 gap-10 perspective-[2000px]">
+                {/* services grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-10">
 
                     {services.map((item, index) => {
-
-                        const direction = index % 2 === 0 ? -600 : 600;
+                        // Mobile friendly animation values
+                        const xValue = typeof window !== 'undefined' && window.innerWidth < 768 ? 50 : (index % 2 === 0 ? -200 : 200);
 
                         return (
-
                             <motion.div
                                 key={index}
-
                                 initial={{
                                     opacity: 0,
-                                    x: direction,
-                                    rotateY: direction > 0 ? -90 : 90,
-                                    rotateX: 40,
-                                    scale: 0.8
+                                    x: xValue,
+                                    scale: 0.9
                                 }}
-
                                 whileInView={{
                                     opacity: 1,
                                     x: 0,
-                                    rotateY: 0,
-                                    rotateX: 0,
                                     scale: 1
                                 }}
-
+                                viewport={{ once: true, margin: "-50px" }}
                                 transition={{
-                                    duration: 1,
-                                    delay: index * 0.15,
+                                    duration: 0.8,
+                                    delay: index * 0.1,
                                     type: "spring",
-                                    stiffness: 80
+                                    stiffness: 100
                                 }}
-
                                 whileHover={{
-                                    rotateY: 6,
-                                    rotateX: 4,
                                     scale: 1.05
                                 }}
-
-                                className="group relative rounded-3xl overflow-hidden backdrop-blur-xl bg-white/5 border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.5)]"
+                                className="group relative rounded-3xl overflow-hidden backdrop-blur-xl bg-white/5 border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.5)] min-h-[320px]"
                             >
-
                                 {/* image */}
-                                <img
-                                    src={item.img}
-                                    alt={item.title}
-                                    className="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:scale-110 transition duration-700"
-                                />
+                                <div className="absolute inset-0">
+                                    <Image
+                                        src={item.img}
+                                        alt={item.title}
+                                        fill
+                                        className="object-cover opacity-50 group-hover:scale-110 transition duration-700"
+                                    />
+                                </div>
 
                                 {/* overlay */}
                                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
 
                                 {/* content */}
-                                <div className="relative p-10 flex flex-col justify-end h-[350px]">
-
-                                    {/* icon */}
+                                <div className="relative p-6 md:p-10 flex flex-col justify-end h-[320px] md:h-[350px]">
                                     <div
-                                        className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 bg-gradient-to-br ${item.color} shadow-xl group-hover:scale-110 transition`}
+                                        className={`w-14 h-14 md:w-16 md:h-16 rounded-2xl flex items-center justify-center mb-6 bg-gradient-to-br ${item.color} shadow-xl group-hover:scale-110 transition`}
                                     >
                                         {item.icon}
                                     </div>
@@ -143,33 +133,26 @@ export default function PremiumServices() {
                                         {item.code}
                                     </span>
 
-                                    <h3 className="text-3xl font-black text-white mt-1">
+                                    <h3 className="text-2xl md:text-3xl font-black text-white mt-1">
                                         {item.title}
                                     </h3>
 
-                                    <motion.p
-                                        initial={{ opacity: 0 }}
-                                        whileHover={{ opacity: 1 }}
-                                        className="text-white/60 text-sm mt-3"
-                                    >
+                                    <p className="text-white/60 text-sm mt-3">
                                         Advanced structural design with automation and
                                         high-performance systems for modern environments.
-                                    </motion.p>
-
+                                    </p>
                                 </div>
 
-                                {/* glow border */}
+                                {/* border glow */}
                                 <div className="absolute inset-0 rounded-3xl border border-white/10 group-hover:border-blue-400/50 transition"></div>
-
                             </motion.div>
                         );
                     })}
                 </div>
 
-                <div className="text-center mt-24 text-slate-500 text-xs tracking-[0.4em] uppercase">
+                <div className="text-center mt-20 md:mt-24 text-slate-500 text-xs tracking-[0.4em] uppercase">
                     System Architecture Mapping
                 </div>
-
             </div>
         </section>
     );
