@@ -1,103 +1,64 @@
 "use client";
-import React, { Suspense } from 'react';
-import { Canvas } from '@react-three/fiber';
-import { Float, MeshDistortMaterial, OrbitControls } from '@react-three/drei';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, ShieldCheck, Zap, DollarSign } from 'lucide-react';
-
-// 3D Element: A floating, distorting "Maintenance Core"
-const FuturisticShape = () => {
-    return (
-        <Float speed={4} rotationIntensity={1} floatIntensity={2}>
-            <mesh scale={2.5}>
-                <sphereGeometry args={[1, 64, 64]} />
-                <MeshDistortMaterial
-                    color="#3b82f6" // Electric Blue
-                    attach="material"
-                    distort={0.4}
-                    speed={2}
-                    roughness={0.2}
-                    metalness={0.8}
-                />
-            </mesh>
-        </Float>
-    );
-};
+import { ArrowRight, Wrench, Sparkles } from 'lucide-react';
 
 export default function HeroSection() {
     return (
-        <section className="relative min-h-screen bg-[#0a0a0a] text-white overflow-hidden flex flex-col justify-center">
-            {/* Background Subtle Grid */}
-            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none"></div>
+        <div className="relative w-full min-h-screen bg-slate-950 overflow-hidden">
 
-            <div className="container mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center z-10">
+            {/* VIP 3D House Background with Scanner Effect */}
+            <div className="absolute inset-0 z-0">
+                <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=2000')] bg-cover bg-center bg-no-repeat opacity-40 scale-105" />
 
-                {/* Left Content: The "Clean & Sleek" Copy */}
+                {/* Scanner Animation */}
                 <motion.div
-                    initial={{ opacity: 0, x: -50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.8 }}
-                >
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-400 text-sm mb-6">
-                        <span className="relative flex h-2 w-2">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
-                        </span>
-                        Next-Gen Property Care
-                    </div>
-
-                    <h1 className="text-6xl md:text-8xl font-bold leading-tight tracking-tighter mb-6 italic uppercase">
-                        Precision <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">
-                            Redefined.
-                        </span>
-                    </h1>
-
-                    <p className="text-gray-400 text-lg md:text-xl max-w-lg mb-8 font-light">
-                        Luxury maintenance for residential estates and commercial hubs.
-                        Futuristic solutions for pools, landscaping, and office upkeep.
-                    </p>
-
-                    <div className="flex flex-wrap gap-4">
-                        <button className="px-8 py-4 bg-white text-black font-bold rounded-sm hover:bg-blue-500 hover:text-white transition-all duration-300 flex items-center gap-2 group">
-                            FREE CONSULTATION <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                        </button>
-                        <button className="px-8 py-4 border border-gray-700 font-bold rounded-sm hover:bg-gray-800 transition-all">
-                            OUR SERVICES
-                        </button>
-                    </div>
-
-                    {/* USP Minimalist Bar */}
-                    <div className="mt-12 grid grid-cols-3 gap-4 border-t border-gray-800 pt-8">
-                        <div className="flex flex-col gap-1">
-                            <Zap size={20} className="text-blue-500" />
-                            <span className="text-xs uppercase tracking-widest text-gray-500 font-bold">Quality</span>
-                        </div>
-                        <div className="flex flex-col gap-1">
-                            <DollarSign size={20} className="text-blue-500" />
-                            <span className="text-xs uppercase tracking-widest text-gray-500 font-bold">Affordable</span>
-                        </div>
-                        <div className="flex flex-col gap-1">
-                            <ShieldCheck size={20} className="text-blue-500" />
-                            <span className="text-xs uppercase tracking-widest text-gray-500 font-bold">Assured</span>
-                        </div>
-                    </div>
-                </motion.div>
-
-                {/* Right Content: The 3D "Wow" Factor */}
-                <div className="h-[500px] lg:h-[700px] cursor-grab active:cursor-grabbing">
-                    <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
-                        <ambientLight intensity={0.5} />
-                        <pointLight position={[10, 10, 10]} intensity={1} />
-                        <spotLight position={[-10, 10, 10]} angle={0.15} penumbra={1} />
-                        <Suspense fallback={null}>
-                            <FuturisticShape />
-                            <OrbitControls enableZoom={false} />
-                        </Suspense>
-                    </Canvas>
-                </div>
-
+                    initial={{ top: "0%" }}
+                    animate={{ top: "100%" }}
+                    transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                    className="absolute w-full h-1 bg-orange-500 shadow-[0_0_20px_rgba(249,115,22,0.8)] z-10"
+                />
             </div>
-        </section>
+
+            {/* Navbar */}
+            <nav className="absolute top-0 w-full z-50 px-8 py-8 flex justify-between items-center container mx-auto">
+                <div className="text-3xl font-black tracking-tighter text-white">HANDY<span className="text-orange-500">MAN</span></div>
+                <div className="hidden md:flex gap-10 text-xs font-bold text-white/70 uppercase tracking-widest">
+                    {['About', 'Services', 'Projects', 'Gallery'].map((item) => (
+                        <a key={item} href="#" className="hover:text-orange-500 transition-colors">{item}</a>
+                    ))}
+                </div>
+                <button className="bg-white text-slate-950 px-8 py-4 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-orange-500 hover:text-white transition-all">
+                    Request Quote
+                </button>
+            </nav>
+
+            {/* Hero Content */}
+            <section className="relative h-screen w-full flex items-center justify-center">
+                <div className="container mx-auto px-6 relative z-20 text-center">
+                    <motion.div
+                        initial={{ opacity: 0, y: 50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 1 }}
+                    >
+                        <div className="inline-flex items-center gap-2 bg-orange-500/10 backdrop-blur-md px-6 py-2 rounded-full text-orange-500 text-[10px] font-black uppercase tracking-[0.3em] mb-8 border border-orange-500/30">
+                            <Sparkles size={12} /> Elite Property Engineering
+                        </div>
+
+                        <h1 className="text-7xl md:text-[160px] font-black text-white uppercase leading-[0.85] tracking-tighter mb-8 drop-shadow-2xl">
+                            Precision <br /> <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-white">Craftsmanship.</span>
+                        </h1>
+
+                        <p className="text-white/60 text-lg md:text-xl font-medium max-w-xl mx-auto mb-12 leading-relaxed">
+                            Transforming your vision into structural reality. Expert maintenance for the most discerning properties.
+                        </p>
+
+                        <button className="bg-orange-500 text-white px-12 py-6 rounded-full font-black uppercase tracking-[0.2em] text-[10px] hover:bg-white hover:text-slate-950 transition-all flex items-center gap-3 mx-auto shadow-[0_0_40px_rgba(249,115,22,0.4)]">
+                            Initialize Project <ArrowRight size={16} />
+                        </button>
+                    </motion.div>
+                </div>
+            </section>
+        </div>
     );
 }
