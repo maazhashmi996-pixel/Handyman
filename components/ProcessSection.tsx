@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { MessageSquare, Microscope, Wrench, ArrowRight } from "lucide-react";
+import { MessageSquare, Microscope, Wrench, ArrowRight, Zap } from "lucide-react";
 
 interface Step {
     id: string;
@@ -11,6 +11,7 @@ interface Step {
     detail: string;
     icon: React.ReactNode;
     color: string;
+    glow: string;
 }
 
 const steps: Step[] = [
@@ -20,8 +21,9 @@ const steps: Step[] = [
         price: "FREE",
         desc: "Initial discovery call to map your requirements.",
         detail: "Strategic analysis of your architectural goals, technical feasibility and system planning.",
-        icon: <MessageSquare size={30} />,
-        color: "from-blue-500 to-cyan-400",
+        icon: <MessageSquare size={30} className="text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]" />,
+        color: "from-blue-600 via-cyan-500 to-blue-400",
+        glow: "rgba(37,99,235,0.5)",
     },
     {
         id: "02",
@@ -29,8 +31,9 @@ const steps: Step[] = [
         price: "$149",
         desc: "On-site diagnostics with laser precision.",
         detail: "Structural analysis, site scanning and feasibility modeling for high-end execution.",
-        icon: <Microscope size={30} />,
-        color: "from-orange-400 to-amber-500",
+        icon: <Microscope size={30} className="text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]" />,
+        color: "from-orange-600 via-amber-500 to-orange-400",
+        glow: "rgba(249,115,22,0.5)",
     },
     {
         id: "03",
@@ -38,54 +41,55 @@ const steps: Step[] = [
         price: "FIXED",
         desc: "Precision engineering implementation.",
         detail: "Full-scale development with high-grade materials and real-time progress monitoring.",
-        icon: <Wrench size={30} />,
-        color: "from-purple-500 to-indigo-600",
+        icon: <Wrench size={30} className="text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]" />,
+        color: "from-purple-600 via-indigo-500 to-purple-400",
+        glow: "rgba(147,51,234,0.5)",
     },
 ];
 
 export default function UltraWorkflow() {
-    const [isMobile, setIsMobile] = useState(false);
-
-    useEffect(() => {
-        const handleResize = () => setIsMobile(window.innerWidth < 768);
-        handleResize();
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    }, []);
-
     return (
-        <section className="relative py-24 px-6 bg-gradient-to-b from-slate-950 via-slate-900 to-black overflow-hidden">
-            <div className="absolute w-[600px] h-[600px] bg-blue-600/20 blur-[150px] rounded-full top-[-200px] left-[-200px]" />
-            <div className="absolute w-[600px] h-[600px] bg-purple-600/20 blur-[150px] rounded-full bottom-[-200px] right-[-200px]" />
+        <section className="relative py-24 md:py-36 px-6 bg-slate-950 overflow-hidden">
+            {/* Background Ambient Glows */}
+            <div className="absolute w-[600px] h-[600px] bg-blue-600/20 blur-[150px] rounded-full -top-48 -left-48" />
+            <div className="absolute w-[600px] h-[600px] bg-orange-600/10 blur-[150px] rounded-full -bottom-48 -right-48" />
 
             <div className="max-w-7xl mx-auto relative z-10">
-                <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} className="text-center mb-20">
-                    <span className="text-blue-400 tracking-[0.4em] uppercase text-xs font-bold">Workflow Protocol</span>
-                    <h2 className="text-5xl md:text-7xl font-black text-white mt-6">
-                        Intelligent <span className="bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">Process</span>
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8 }}
+                    className="text-center mb-20 md:mb-28"
+                >
+                    <div className="inline-flex items-center gap-2 bg-white/5 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 mb-6 shadow-xl">
+                        <Zap size={14} className="text-orange-500 fill-orange-500" />
+                        <span className="text-orange-500 tracking-[0.4em] uppercase text-[10px] font-black">Workflow Protocol</span>
+                    </div>
+
+                    <h2 className="text-5xl md:text-[85px] font-black text-white mt-6 tracking-tighter leading-none">
+                        Intelligent <br />
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-amber-400 to-white drop-shadow-[0_0_15px_rgba(249,115,22,0.3)]">
+                            Process.
+                        </span>
                     </h2>
                 </motion.div>
 
                 {/* CARDS GRID */}
-                <div className="grid md:grid-cols-3 gap-8">
+                <div className="grid md:grid-cols-3 gap-10">
                     {steps.map((step, index) => (
                         <motion.div
                             key={step.id}
                             initial={{ opacity: 0, y: 50 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.2, duration: 0.6 }}
-                            whileHover={{ y: -10 }}
-                            className="group relative h-[420px] rounded-[30px] backdrop-blur-xl bg-white/5 border border-white/10 shadow-[0_20px_80px_rgba(0,0,0,0.7)] overflow-hidden"
+                            whileHover={{ y: -15 }}
+                            className="group relative h-[480px] rounded-[40px] backdrop-blur-2xl bg-white/5 border border-white/10 shadow-[0_20px_80px_rgba(0,0,0,0.8)] overflow-hidden transition-all duration-500"
                         >
                             <CardContent step={step} />
                         </motion.div>
                     ))}
                 </div>
             </div>
-            {/* Visualizing the workflow steps 
-
-[Image of workflow process diagram]
- */}
         </section>
     );
 }
@@ -93,26 +97,53 @@ export default function UltraWorkflow() {
 function CardContent({ step }: { step: Step }) {
     return (
         <>
-            <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500 bg-gradient-to-br ${step.color} blur-2xl`} />
+            {/* Dynamic Hover Background Glow */}
+            <div
+                className={`absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-700 bg-gradient-to-br ${step.color} blur-3xl`}
+            />
+
             <div className="relative z-10 p-10 flex flex-col justify-between h-full">
                 <div className="flex justify-between items-start">
-                    <span className="text-6xl font-black text-white/10">{step.id}</span>
-                    <div className="bg-white/10 text-white px-4 py-1 rounded-full text-xs font-bold">{step.price}</div>
+                    {/* Glowing Number */}
+                    <span className="text-7xl font-black text-white/5 group-hover:text-white/20 transition-colors duration-500">
+                        {step.id}
+                    </span>
+                    <div className={`bg-gradient-to-r ${step.color} text-white px-5 py-1.5 rounded-full text-[10px] font-black tracking-widest shadow-lg`}>
+                        {step.price}
+                    </div>
                 </div>
-                <div className={`w-16 h-16 rounded-2xl flex items-center justify-center bg-gradient-to-br ${step.color} shadow-xl group-hover:scale-110 transition`}>
-                    {step.icon}
+
+                <div className="space-y-6">
+                    {/* Icon Box with Intense Glow */}
+                    <div
+                        style={{ boxShadow: `0 0 30px ${step.glow}` }}
+                        className={`w-20 h-20 rounded-[28px] flex items-center justify-center bg-gradient-to-br ${step.color} border border-white/20 group-hover:scale-110 transition-transform duration-500 shadow-2xl`}
+                    >
+                        {step.icon}
+                    </div>
+
+                    <div>
+                        <h3 className="text-3xl font-black text-white mb-4 tracking-tight group-hover:text-orange-400 transition-colors">
+                            {step.title}
+                        </h3>
+                        <p className="text-slate-300 text-sm font-bold mb-3 uppercase tracking-tighter">
+                            {step.desc}
+                        </p>
+                        <p className="text-slate-500 text-xs leading-relaxed group-hover:text-slate-400 transition-colors">
+                            {step.detail}
+                        </p>
+                    </div>
                 </div>
-                <div>
-                    <h3 className="text-2xl font-black text-white mb-3">{step.title}</h3>
-                    <p className="text-slate-400 text-sm mb-4">{step.desc}</p>
-                    <p className="text-slate-500 text-xs leading-relaxed">{step.detail}</p>
-                </div>
-                <button className="group flex items-center justify-between bg-white text-black py-3 px-5 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-blue-500 hover:text-white transition">
+
+                {/* Ultra Button */}
+                <button className={`group/btn flex items-center justify-between bg-white text-slate-950 py-4 px-6 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-gradient-to-r ${step.color} hover:text-white transition-all duration-300 shadow-xl`}>
                     Start Step
-                    <ArrowRight size={16} className="group-hover:translate-x-2 transition" />
+                    <ArrowRight size={16} className="group-hover/btn:translate-x-2 transition-transform" strokeWidth={3} />
                 </button>
             </div>
-            <div className="absolute inset-0 rounded-[30px] border border-white/10 group-hover:border-blue-400/50 transition" />
+
+            {/* Glowing Border on Hover */}
+            <div className={`absolute inset-0 rounded-[40px] border-2 border-transparent group-hover:border-white/20 transition-all duration-500`} />
         </>
     );
 }
